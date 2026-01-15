@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AuthPage from "./pages/AuthPage";
 import DashboardPage from "./pages/DashboardPage";
+import AuthGuard from "./components/AuthGuard";
 
 export default function App() {
   const token = useSelector((s) => s.auth.token);
@@ -9,8 +10,11 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/auth" element={!token ? <AuthPage /> : <Navigate to="/" replace />} />
-        <Route path="/" element={token ? <DashboardPage /> : <Navigate to="/auth" replace />} />
+        <Route element={<AuthGuard />}>
+          <Route path="/auth" element={<AuthPage />} />
+        </Route>
+
+        <Route path="/dashboard" element={token ? <DashboardPage /> : <Navigate to="/auth" replace />} />
       </Routes>
     </BrowserRouter>
   );
