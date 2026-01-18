@@ -20,19 +20,34 @@ const slice = createSlice({
   name: "apps",
   initialState: { items: [] },
   reducers: {
-    setAppUnread(state, action) {
-      const { apiKey, unread } = action.payload;
+    setAppRealtimeMeta(state, action) {
+      const { apiKey, unread, sessionsCount, activeCount } = action.payload;
       const app = state.items.find((a) => a.apiKey === apiKey);
-      if (app) app.unread = unread;
+      if (!app) return;
+      app.unread = unread ?? app.unread ?? 0;
+      app.sessionsCount = sessionsCount ?? app.sessionsCount ?? 0;
+      app.activeCount = activeCount ?? app.activeCount ?? 0;
     },
   },
   extraReducers: (b) => {
     b.addCase(fetchAppsThunk.fulfilled, (s, a) => {
-      s.items = a.payload.map((x) => ({ apiKey: x.apiKey, name: x.name, unread: 0 }));
+      s.items = a.payload.map((x) => ({
+        apiKey: x.apiKey,
+        name: x.name,
+        unread: 0,
+        sessionsCount: 0,
+        activeCount: 0,
+      }));
     });
 
     b.addCase(createAppThunk.fulfilled, (s, a) => {
-      s.items.unshift({ ...a.payload, unread: 0 });
+      s.items.unshift({
+        apiKey: a.payload.apiKey,
+        name: a.payload.name,
+        unread: 0,
+        sessionsCount: 0,
+        activeCount: 0,
+      });
     });
 
     b.addCase(deleteAppThunk.fulfilled, (s, a) => {
@@ -41,5 +56,5 @@ const slice = createSlice({
   },
 });
 
-export const { setAppUnread } = slice.actions;
+export const { setAppRealtimeMeta } = slice.actions;
 export default slice.reducer;
