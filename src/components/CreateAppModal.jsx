@@ -19,30 +19,39 @@ export default function CreateAppModal() {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-2xl p-5">
-        <h3 className="text-lg font-semibold">Create API Key (App)</h3>
-        <p className="text-sm text-zinc-400 mt-1">
+    <div className="fixed inset-0 bg-black/30 flex items-center justify-center p-4">
+      <div className="w-full max-w-md bg-[var(--panel)] border border-[var(--border)] shadow-[var(--shadow)] rounded-2xl p-6">
+        <h3 className="text-lg font-semibold text-[var(--ink)]">
+          Create App
+        </h3>
+        <p className="text-sm text-[var(--muted)] mt-1">
           Give it a name so you can differentiate apps.
         </p>
 
-        <input
-          className="mt-4 w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 outline-none focus:border-zinc-600"
-          placeholder="e.g. My Android App"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <div className="mt-4">
+          <label className="block text-xs font-semibold text-[var(--muted)] mb-2">
+            App name
+          </label>
+          <input
+            className="w-full bg-[var(--soft)] border border-[var(--border)] rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[var(--primary)] text-sm text-[var(--ink)] placeholder:text-[var(--muted)]"
+            placeholder="e.g. My Android App"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
 
-        <div className="mt-4 flex gap-2 justify-end">
+        <div className="mt-6 flex gap-2 justify-end">
           <button
-            className="px-4 py-2 rounded-xl border border-zinc-700"
+            className="px-4 py-2 rounded-xl bg-[var(--panel)] border border-[var(--border)] text-[var(--ink)] font-semibold hover:bg-[var(--soft)]"
             onClick={() => dispatch(closeCreateApp())}
           >
             Cancel
           </button>
+
           <button
-            className="px-4 py-2 rounded-xl bg-white text-zinc-950 font-medium"
+            className="px-4 py-2 rounded-xl bg-[var(--primary)] text-[var(--ink)] font-semibold shadow-sm hover:brightness-95 disabled:opacity-60"
             onClick={create}
+            disabled={!name.trim()}
           >
             Create
           </button>
