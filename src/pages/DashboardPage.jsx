@@ -5,7 +5,9 @@ import AppShell from "../components/layout/AppShell";
 import Sidebar from "../components/layout/Sidebar";
 
 import DashboardTab from "../components/dashboard/DashboardTab";
-import AppsTab from "../components/apps/AppsTab";
+import AppsConfigTab from "../components/apps/AppsConfigTab";
+import ChatsTab from "../components/chats/ChatsTab";
+
 
 import CreateAppModal from "../components/CreateAppModal";
 import DeleteAppModal from "../components/DeleteAppModal";
@@ -27,7 +29,7 @@ export default function DashboardPage() {
   const token = useSelector((s) => s.auth.token);
   const apps = useSelector((s) => s.apps.items || []);
 
-  const [tab, setTab] = useState("dashboard"); // dashboard | apps
+  const [tab, setTab] = useState("dashboard"); // dashboard | chats | apps
 
   // Delete modal
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -132,13 +134,20 @@ useEffect(() => {
       )}
 
       {tab === "apps" && (
-        <AppsTab
+        <AppsConfigTab
           apps={apps}
           onCopy={onCopy}
           onDelete={requestDelete}
           onCreate={() => dispatch(openCreateApp())}
         />
       )}
+
+      {tab === "chats" && (
+  <ChatsTab
+    apps={apps}
+    onOpenCreate={() => dispatch(openCreateApp())}
+  />
+)}
 
       <CreateAppModal />
 
