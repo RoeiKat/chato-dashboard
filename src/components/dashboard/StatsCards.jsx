@@ -1,6 +1,11 @@
-function Card({ title, value, sub }) {
+function Card({ title, value, sub, className = "" }) {
   return (
-    <div className="rounded-2xl border border-[var(--border)] bg-[var(--panel)] shadow-[var(--shadow)] p-5">
+    <div
+      className={
+        "rounded-2xl border border-[var(--border)] shadow-[var(--shadow)] p-5 " +
+        className
+      }
+    >
       <div className="text-sm text-[var(--muted)]">{title}</div>
       <div className="mt-2 text-3xl font-semibold tracking-tight text-[var(--ink)]">
         {value}
@@ -10,13 +15,37 @@ function Card({ title, value, sub }) {
   );
 }
 
-export default function StatsCards({ appsCount, unreadTotal }) {
+export default function StatsCards({ appsCount, unreadTotal, activeTotal, sessionsTotal }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-      <Card title="Connected Apps" value={appsCount} sub="API keys" />
-      <Card title="Unread Messages" value={unreadTotal} sub="All apps" />
-      <Card title="Active Conversations" value="—" sub="Later (no backend changes)" />
-      <Card title="Total Conversations" value="—" sub="Later (no backend changes)" />
+      {/* Gradient only for Connected Apps */}
+      <Card
+        title="Connected Apps"
+        value={appsCount}
+        sub="API keys"
+        className="bg-gradient-to-br from-[#ffe95c] to-[#f3d74f] border-black/5"
+      />
+
+      <Card
+        title="Active Conversations"
+        value={activeTotal}
+        sub="Across all apps"
+        className="bg-[var(--panel)]"
+      />
+
+      <Card
+        title="Total Conversations"
+        value={sessionsTotal}
+        sub="Across all apps"
+        className="bg-[var(--panel)]"
+      />
+
+      <Card
+        title="Unread Messages"
+        value={unreadTotal}
+        sub="Across all apps"
+        className="bg-[var(--panel)]"
+      />
     </div>
   );
 }

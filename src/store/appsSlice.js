@@ -29,12 +29,18 @@ const slice = createSlice({
   initialState: { items: [] },
   reducers: {
     setAppRealtimeMeta(state, action) {
-      const { apiKey, unread, sessionsCount, activeCount } = action.payload;
+      const { apiKey, unread, sessionsCount, activeCount, messagesByDay } = action.payload;
+
       const app = state.items.find((a) => a.apiKey === apiKey);
       if (!app) return;
+
       app.unread = unread ?? app.unread ?? 0;
       app.sessionsCount = sessionsCount ?? app.sessionsCount ?? 0;
       app.activeCount = activeCount ?? app.activeCount ?? 0;
+
+      if (Array.isArray(messagesByDay) && messagesByDay.length === 7) {
+        app.messagesByDay = messagesByDay;
+      }
     },
   },
   extraReducers: (b) => {
@@ -49,6 +55,7 @@ const slice = createSlice({
         unread: 0,
         sessionsCount: 0,
         activeCount: 0,
+        messagesByDay: [0, 0, 0, 0, 0, 0, 0],
       }));
     });
 
@@ -63,6 +70,7 @@ const slice = createSlice({
         unread: 0,
         sessionsCount: 0,
         activeCount: 0,
+        messagesByDay: [0, 0, 0, 0, 0, 0, 0],
       });
     });
 
@@ -75,12 +83,8 @@ const slice = createSlice({
       const app = s.items.find((x) => x.apiKey === apiKey);
       if (!app) return;
 
-      if (theme) {
-        app.theme = { ...(app.theme || {}), ...theme };
-      }
-      if (prechat) {
-        app.prechat = { ...(app.prechat || {}), ...prechat };
-      }
+      if (theme) app.theme = { ...(app.theme || {}), ...theme };
+      if (prechat) app.prechat = { ...(app.prechat || {}), ...prechat };
     });
   },
 });
