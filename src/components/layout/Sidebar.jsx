@@ -2,6 +2,17 @@ function cx(...c) {
   return c.filter(Boolean).join(" ");
 }
 
+const ChatsIcon = ({ className }) => (
+  <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+    <path
+      d="M4 5.5C4 4.12 5.12 3 6.5 3h11C18.88 3 20 4.12 20 5.5v7c0 1.38-1.12 2.5-2.5 2.5H10l-4.2 3.15c-.7.53-1.8.03-1.8-.86V15C4 14.45 4 6.05 4 5.5Z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 const DashboardIcon = ({ className }) => (
   <svg
     viewBox="0 0 24 24"
@@ -185,6 +196,17 @@ export default function Sidebar({
                   closeMobile();
                 }}
               />
+              
+              <RowButton
+  label="Chats"
+  active={activeTab === "chats"}
+  icon={<ChatsIcon className="w-5 h-5" />}
+  onClick={() => {
+    onChangeTab("chats");
+    closeMobile();
+  }}
+/>
+
             </div>
           </div>
 

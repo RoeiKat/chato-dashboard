@@ -16,6 +16,14 @@ export const deleteAppThunk = createAsyncThunk("apps/delete", async ({ token, ap
   return { apiKey };
 });
 
+export const updateAppSettingsThunk = createAsyncThunk(
+  "apps/updateSettings",
+  async ({ token, apiKey, prechat, theme }) => {
+    await appsApi.updateSettings(token, apiKey, { prechat, theme });
+    return { apiKey, prechat, theme };
+  }
+);
+
 const slice = createSlice({
   name: "apps",
   initialState: { items: [] },
@@ -34,6 +42,10 @@ const slice = createSlice({
       s.items = a.payload.map((x) => ({
         apiKey: x.apiKey,
         name: x.name,
+
+        theme: x.theme || { bubbleBg: "", primary: "", iconSvg: "", title: "" },
+        prechat: x.prechat || { q1: "", q2: "", q3: "", faqUrl: "" },
+
         unread: 0,
         sessionsCount: 0,
         activeCount: 0,
@@ -44,6 +56,10 @@ const slice = createSlice({
       s.items.unshift({
         apiKey: a.payload.apiKey,
         name: a.payload.name,
+
+        theme: { bubbleBg: "", primary: "", iconSvg: "", title: "" },
+        prechat: { q1: "", q2: "", q3: "", faqUrl: "" },
+
         unread: 0,
         sessionsCount: 0,
         activeCount: 0,
@@ -52,6 +68,19 @@ const slice = createSlice({
 
     b.addCase(deleteAppThunk.fulfilled, (s, a) => {
       s.items = s.items.filter((x) => x.apiKey !== a.payload.apiKey);
+    });
+
+    b.addCase(updateAppSettingsThunk.fulfilled, (s, a) => {
+      const { apiKey, prechat, theme } = a.payload;
+      const app = s.items.find((x) => x.apiKey === apiKey);
+      if (!app) return;
+
+      if (theme) {
+        app.theme = { ...(app.theme || {}), ...theme };
+      }
+      if (prechat) {
+        app.prechat = { ...(app.prechat || {}), ...prechat };
+      }
     });
   },
 });

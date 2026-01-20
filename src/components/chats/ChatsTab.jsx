@@ -1,11 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import AppsGrid from "./AppsGrid";
-import AppConversations from "./AppConversations";
+import AppConversations from "../apps/AppConversations";
 import ChatView from "./ChatView";
-
-function cx(...c) {
-  return c.filter(Boolean).join(" ");
-}
+import ChatsGrid from "./ChatsGrid";
 
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(() => {
@@ -24,13 +20,16 @@ function useIsMobile() {
   return isMobile;
 }
 
+function cx(...c) {
+  return c.filter(Boolean).join(" ");
+}
+
 function Pagination({ page, totalPages, onPage }) {
   if (totalPages <= 1) return null;
-
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    <div className="w-full max-w-7xl mx-auto">
+    <div className="w-full">
       <div className="flex items-center justify-center gap-2">
         <button
           className="px-3 py-2 rounded-xl bg-[var(--panel)] border border-[var(--border)] text-[var(--ink)] font-semibold hover:bg-[var(--soft)] disabled:opacity-50 cursor-pointer shrink-0"
@@ -40,7 +39,6 @@ function Pagination({ page, totalPages, onPage }) {
           Prev
         </button>
 
-        {/* Keep horizontal on mobile by preventing wrap + allow scroll */}
         <div className="flex items-center gap-2 flex-nowrap overflow-x-auto max-w-[70vw] sm:max-w-none py-1">
           {pages.map((p) => (
             <button
@@ -70,15 +68,13 @@ function Pagination({ page, totalPages, onPage }) {
   );
 }
 
-export default function AppsTab({ apps, onCopy, onDelete, onCreate }) {
+export default function ChatsTab({ apps, onOpenCreate }) {
   const [screen, setScreen] = useState("grid"); // grid | conversations | chat
   const [activeApp, setActiveApp] = useState(null);
   const [activeSession, setActiveSession] = useState(null);
 
-  // ✅ Pagination: 3 per page on mobile, 8 per page on desktop
   const isMobile = useIsMobile();
   const pageSize = isMobile ? 3 : 8;
-
   const [page, setPage] = useState(1);
 
   const totalPages = useMemo(() => {
@@ -86,12 +82,10 @@ export default function AppsTab({ apps, onCopy, onDelete, onCreate }) {
   }, [apps?.length, pageSize]);
 
   useEffect(() => {
-    // clamp page if apps count or page size changes
     setPage((p) => Math.min(Math.max(1, p), totalPages));
   }, [totalPages]);
 
   useEffect(() => {
-    // nice UX when switching between mobile/desktop
     setPage(1);
   }, [pageSize]);
 
@@ -105,15 +99,15 @@ export default function AppsTab({ apps, onCopy, onDelete, onCreate }) {
       <div className="min-h-[calc(100vh-96px)] flex flex-col">
         <div className="flex items-end justify-between gap-3">
           <div>
-            <div className="text-2xl font-semibold text-[var(--ink)]">Apps</div>
+            <div className="text-2xl font-semibold text-[var(--ink)]">Chats</div>
             <div className="text-sm text-[var(--muted)]">
-              API keys & notification counters
+              View and answer Chats
             </div>
           </div>
 
           <button
             className="px-4 py-2 rounded-xl bg-[var(--primary)] text-[var(--ink)] font-semibold shadow-sm hover:brightness-95 cursor-pointer"
-            onClick={onCreate}
+            onClick={onOpenCreate}
           >
             + Create App
           </button>
@@ -122,14 +116,12 @@ export default function AppsTab({ apps, onCopy, onDelete, onCreate }) {
         <div className="mt-5">
           {apps.length === 0 ? (
             <div className="rounded-2xl border border-[var(--border)] bg-[var(--panel)] shadow-[var(--shadow)] p-6 text-[var(--muted)]">
-              No apps yet. Create one to generate your first API key.
+              No apps yet. Create one to start receiving chats.
             </div>
           ) : (
-            <AppsGrid
+            <ChatsGrid
               apps={pagedApps}
-              onCopy={onCopy}
-              onDelete={onDelete}
-              onOpenApp={(app) => {
+              onOpen={(app) => {
                 setActiveApp(app);
                 setScreen("conversations");
               }}
@@ -137,7 +129,7 @@ export default function AppsTab({ apps, onCopy, onDelete, onCreate }) {
           )}
         </div>
 
-        {/* Sticky footer pagination */}
+        {/* ✅ Sticky pagination like Apps */}
         <div className="mt-auto">
           <div className="sticky bottom-0 bg-[var(--bg)] pt-4 pb-2">
             <Pagination page={page} totalPages={totalPages} onPage={setPage} />
