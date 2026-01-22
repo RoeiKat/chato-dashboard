@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginThunk, registerThunk } from "../store/authSlice";
+import WelcomeIllustration from "../assets/illustrations/welcome_illustration.svg";
+
 
 const EyeOpenIcon = ({ className }) => (
   <svg
@@ -54,6 +56,13 @@ export default function AuthPage() {
   const [mode, setMode] = useState("login"); // "login" | "register"
   const isLogin = mode === "login";
 
+  const [hideError, setHideError] = useState(false);
+
+  useEffect(() => {
+    if (error) setHideError(false);
+  }, [error]);
+
+
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -71,11 +80,28 @@ export default function AuthPage() {
   // Fullscreen spinner transition after success
   const [showSuccessSpinner, setShowSuccessSpinner] = useState(false);
 
-  const title = useMemo(() => (isLogin ? "Welcome back" : "Create new Account"), [isLogin]);
+  const title = useMemo(() => (isLogin ? "Welcome back!" : "Create new Account"), [isLogin]);
   const subtitle = useMemo(
     () => (isLogin ? "Login to your dashboard." : "Start for free and create your account."),
     [isLogin]
   );
+
+const displayError = useMemo(() => {
+  if (!error) return null;
+
+  return isLogin
+    ? "Email or password incorrect."
+    : "User already exists or Password does not meet the requierments.";
+}, [error, isLogin]);
+
+const isSubmitDisabled = useMemo(() => {
+  return (
+    status === "loading" ||
+    email.trim() === "" ||
+    password.trim() === ""
+  );
+}, [status, email, password]);
+
 
   const submit = (e) => {
     e.preventDefault();
@@ -120,6 +146,17 @@ useEffect(() => {
 
   return (
     <div className="min-h-screen bg-white text-zinc-900 animate-[pageFade_450ms_ease-out_forwards]">
+      {/* Back to home */}
+<div className="absolute top-4 left-4 z-50">
+  <button
+    type="button"
+    onClick={() => navigate("/")}
+    className="px-3 py-2 rounded-xl border border-[var(--border)] bg-[var(--panel)] text-[var(--ink)] hover:bg-[var(--soft)] cursor-pointer shadow-sm"
+  >
+    ← Back
+  </button>
+</div>
+
       <div className="mx-auto flex min-h-screen max-w-6xl items-center justify-center p-4 sm:p-6 lg:p-10">
         <div className="w-full overflow-hidden rounded-[28px] border border-zinc-200 bg-white shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -127,37 +164,13 @@ useEffect(() => {
             <div className="p-6 sm:p-10">
               <div className="flex items-center gap-2 text-sm text-zinc-500">
                 <span className="inline-block h-2 w-2 rounded-full bg-zinc-300" />
-                <span>{isLogin ? "Welcome" : "Start for free"}</span>
+                <span>{isLogin ? "Nice to see you again" : "Start for FREE!"}</span>
               </div>
 
               <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h1>
               <p className="mt-2 text-sm text-zinc-500">{subtitle}</p>
 
-              <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium hover:bg-zinc-50 active:scale-[0.99]"
-                >
-                  <span className="grid h-5 w-5 place-items-center rounded-md border border-zinc-200 text-xs">
-                    G
-                  </span>
-                  Google
-                </button>
-
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium hover:bg-zinc-50 active:scale-[0.99]"
-                >
-                  <span className="grid h-5 w-5 place-items-center rounded-md border border-zinc-200 text-xs">
-                    f
-                  </span>
-                  Facebook
-                </button>
-              </div>
-
               <div className="mt-6 flex items-center gap-3">
-                <div className="h-px flex-1 bg-zinc-200" />
-                <span className="text-xs text-zinc-500">or</span>
                 <div className="h-px flex-1 bg-zinc-200" />
               </div>
 
@@ -170,6 +183,7 @@ useEffect(() => {
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
+                      setHideError(true);
                       if (touchedError.email) setTouchedError((p) => ({ ...p, email: false }));
                     }}
                     placeholder="name@company.com"
@@ -194,6 +208,7 @@ useEffect(() => {
                       value={password}
                       onChange={(e) => {
                         setPassword(e.target.value);
+                        setHideError(true);
                         if (touchedError.password)
                           setTouchedError((p) => ({ ...p, password: false }));
                       }}
@@ -260,17 +275,26 @@ useEffect(() => {
                     </span>
                   </label>
                 )}
+{displayError && !hideError && (
+  <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 transition-opacity duration-200">
+    {displayError}
+  </div>
+)}
 
-                {error && (
-                  <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 transition-opacity duration-200">
-                    {error}
-                  </div>
-                )}
 
-                <button
-                  className="w-full rounded-xl bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-zinc-800 disabled:opacity-60"
-                  disabled={status === "loading"}
-                >
+<button
+  disabled={isSubmitDisabled}
+  className="
+    w-full rounded-xl px-4 py-2.5 text-sm font-semibold
+    bg-[var(--primary)] text-zinc-900
+    transition
+    hover:brightness-95
+    active:brightness-90
+    disabled:opacity-50
+    disabled:cursor-not-allowed
+    disabled:hover:brightness-100
+  "
+>
                   {status === "loading"
                     ? "Please wait..."
                     : isLogin
@@ -282,7 +306,11 @@ useEffect(() => {
                   {isLogin ? "Not a member? " : "Already a member? "}
                   <button
                     type="button"
-                    onClick={() => setMode(isLogin ? "register" : "login")}
+                    onClick={() => {
+                      setMode(isLogin ? "register" : "login");
+                      setHideError(true);
+                      setTouchedError({ email: false, password: false });
+                    }}
                     className="font-medium text-zinc-900 underline underline-offset-4 hover:text-zinc-700"
                   >
                     {isLogin ? "Create an account" : "Login"}
@@ -292,11 +320,18 @@ useEffect(() => {
             </div>
 
             {/* RIGHT placeholder */}
-            <div className="relative hidden lg:block border-t border-zinc-200 bg-zinc-50 p-6 sm:p-10 lg:border-l lg:border-t-0">
-              <div className="flex h-full min-h-[260px] items-center justify-center">
-                <div className="aspect-square w-full max-w-md rounded-2xl border border-dashed border-zinc-300 bg-white" />
-              </div>
-            </div>
+{/* RIGHT illustration */}
+<div className="relative hidden lg:block border-t border-zinc-200 bg-zinc-50 p-6 sm:p-10 lg:border-l lg:border-t-0">
+  <div className="flex h-full items-center justify-center">
+    <img
+      src={WelcomeIllustration}
+      alt="Welcome"
+      className="w-full max-w-md select-none"
+      draggable={false}
+    />
+  </div>
+</div>
+
           </div>
         </div>
       </div>
