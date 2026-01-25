@@ -164,12 +164,18 @@ export default function Sidebar({
           "sm:translate-x-0"
         )}
       >
-        <div className="p-5 border-b border-[var(--border)]">
-          <div className="text-lg font-semibold tracking-tight text-[var(--ink)]">
-            Chato
-          </div>
-          <div className="text-xs text-[var(--muted)] mt-1">Dashboard</div>
-        </div>
+<div className="p-5 border-b border-[var(--border)] flex items-center">
+  <img
+    src="/logo.png"
+    alt="Chato logo"
+    className="w-8 h-8 object-contain -mr-1/2 -ml-1 -mb-1"
+  />
+  <div className="text-2xl font-bold tracking-tight text-[var(--ink)]">
+    Chato
+  </div>
+</div>
+
+
 
         <div className="p-4 flex flex-col h-[calc(100%-88px)]">
           <div>
