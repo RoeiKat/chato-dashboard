@@ -335,6 +335,17 @@ useEffect(() => {
           </div>
         </div>
       </div>
+      <div className="-mt-15 text-center text-[11px] text-zinc-400 py-4">
+  <a
+    href="https://storyset.com/technology"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="hover:text-zinc-500 transition"
+  >
+    Technology illustrations by Storyset
+  </a>
+</div>
+
     </div>
   );
 }

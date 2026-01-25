@@ -1,16 +1,50 @@
-# React + Vite
+# Chato Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Chato Dashboard is the web interface for managing conversations created by the Chato Android SDK.
 
-Currently, two official plugins are available:
+It allows app owners to:
+- View active customer sessions
+- Reply to users in real time
+- Configure SDK behavior and UI remotely
+- Monitor support activity per application
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Real-time chat with Android users
+- App & API key management
+- Remote SDK configuration (colors, title, bubble icon)
+- Pre-chat flow configuration
+- Session-based conversations
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Screenshots
+
+### Dashboard
+![Dashboard](public/screenshots/Dashboard_screenshot.png)
+
+### App Configuration
+![Configuration](public/screenshots/Settings_screenshot.png)
+
+### Live Chat
+![Chat](public/screenshots/Chat_screenshot.png)
+
+---
+
+## Tech Stack
+
+- React
+- Redux Toolkit
+- Tailwind CSS
+- Firebase Realtime Database
+- REST API (Node.js backend)
+
+---
+
+## Local Development
+
+```bash
+npm install
+npm run dev

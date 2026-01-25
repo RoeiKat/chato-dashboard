@@ -448,13 +448,10 @@ export default function MainPage() {
           <div>
             <div className="font-semibold">Product</div>
             <ul className="mt-2 space-y-2 text-zinc-500">
-              <li onClick={() => {}} className="hover:text-zinc-900 cursor-pointer w-fit">
-                Features
-              </li>
               <li onClick={() => {navigate("/sdk-docs")}} className="hover:text-zinc-900 cursor-pointer w-fit">
                 SDK
               </li>
-              <li onClick={() => {}} className="hover:text-zinc-900 cursor-pointer w-fit">
+              <li onClick={() => {navigate("/auth")}} className="hover:text-zinc-900 cursor-pointer w-fit">
                 Dashboard
               </li>
             </ul>
@@ -515,6 +512,16 @@ export default function MainPage() {
         <div className="border-t border-zinc-200 text-center py-6 text-xs text-zinc-500">
           © {new Date().getFullYear()} Chato - Made with ❤︎⁠ by Roei Katabi.
         </div>
+        <div className="text-center text-[11px] text-zinc-400 py-4">
+  <a
+    href="https://storyset.com/technology"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="hover:text-zinc-500 transition"
+  >
+    Technology illustrations by Storyset
+  </a>
+</div>
       </footer>
 
       {/* EXAMPLES MODAL */}

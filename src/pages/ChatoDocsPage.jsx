@@ -3,8 +3,8 @@ import { useMemo, useState } from "react";
 /**
  * Chato SDK Docs Page (React + Tailwind)
  * - Drop into your frontend as /docs (route it however you like)
- * - Includes code tabs (Kotlin / Java placeholders)
- * - Includes sections matching your SDK flow (init + attach/detach)
+ * - Includes code tabs (Groovy / Kotlin DSL)
+ * - Updated for JitPack installation + new artifact coordinates
  */
 
 function classNames(...xs) {
@@ -135,8 +135,8 @@ function InfoCard({ title, children }) {
 }
 
 export default function ChatoDocsPage() {
-  // Replace these later if you want to auto-generate from your releases
-  const sdkVersion = "VERSION";
+  // ✅ Updated JitPack version
+  const sdkVersion = "v0.1.1";
   const minSdk = 21;
 
   // === CODE SNIPPETS (based on your sample-app screenshot) ===
@@ -190,8 +190,30 @@ export default function ChatoDocsPage() {
   }
 }`;
 
-  const gradleInstall = `dependencies {
-  implementation("com.chato:sdk:${sdkVersion}")
+  // ✅ JitPack repo (settings.gradle / settings.gradle.kts)
+  const jitpackRepoGradleGroovy = `dependencyResolutionManagement {
+  repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+  repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+  }
+}`;
+
+  const jitpackRepoGradleKts = `dependencyResolutionManagement {
+  repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+  repositories {
+    mavenCentral()
+    maven(url = "https://jitpack.io")
+  }
+}`;
+
+  // ✅ JitPack dependency (module build.gradle / build.gradle.kts)
+  const jitpackDepGradleGroovy = `dependencies {
+  implementation 'com.github.RoeiKat:chato-sdk:${sdkVersion}'
+}`;
+
+  const jitpackDepGradleKts = `dependencies {
+  implementation("com.github.RoeiKat:chato-sdk:${sdkVersion}")
 }`;
 
   const manifestInternet = `<uses-permission android:name="android.permission.INTERNET" />`;
@@ -243,6 +265,7 @@ export default function ChatoDocsPage() {
 
         <div className="mx-auto mt-10 flex max-w-4xl flex-wrap items-center justify-center gap-2">
           <Badge>Min SDK: {minSdk}+</Badge>
+          <Badge>Latest: {sdkVersion}</Badge>
           <Badge>Realtime messaging</Badge>
           <Badge>Remote theming</Badge>
           <Badge>Pre-chat flow</Badge>
@@ -335,24 +358,31 @@ export default function ChatoDocsPage() {
               <div className="rounded-3xl border border-zinc-200 bg-white p-8 shadow-sm">
                 <h2 className="text-2xl font-semibold tracking-tight">Installation</h2>
 
-                <div className="mt-6 space-y-6">
+                <div className="mt-6 space-y-7">
                   <div>
                     <div className="font-semibold text-zinc-900">
-                      1) Add the dependency
+                      1) Add the JitPack repository (root settings.gradle)
                     </div>
                     <p className="mt-2 text-sm text-zinc-600">
-                      Replace <code className="rounded bg-zinc-100 px-1.5 py-0.5">VERSION</code>{" "}
-                      with your latest release.
+                      Add JitPack to your <code className="rounded bg-zinc-100 px-1.5 py-0.5">settings.gradle</code>{" "}
+                      (or <code className="rounded bg-zinc-100 px-1.5 py-0.5">settings.gradle.kts</code>) inside{" "}
+                      <code className="rounded bg-zinc-100 px-1.5 py-0.5">dependencyResolutionManagement</code>.
                     </p>
                     <div className="mt-3">
                       <CodeTabs
-                        defaultKey="gradle"
+                        defaultKey="groovy"
                         tabs={[
                           {
-                            key: "gradle",
-                            label: "Gradle",
-                            badge: "build.gradle",
-                            code: gradleInstall,
+                            key: "groovy",
+                            label: "Gradle (Groovy)",
+                            badge: "settings.gradle",
+                            code: jitpackRepoGradleGroovy,
+                          },
+                          {
+                            key: "kts",
+                            label: "Gradle (Kotlin DSL)",
+                            badge: "settings.gradle.kts",
+                            code: jitpackRepoGradleKts,
                           },
                         ]}
                       />
@@ -361,10 +391,40 @@ export default function ChatoDocsPage() {
 
                   <div>
                     <div className="font-semibold text-zinc-900">
-                      2) Ensure internet permission
+                      2) Add the dependency (module build.gradle)
                     </div>
                     <p className="mt-2 text-sm text-zinc-600">
-                      Add this in your <code className="rounded bg-zinc-100 px-1.5 py-0.5">AndroidManifest.xml</code>.
+                      Current release:{" "}
+                      <code className="rounded bg-zinc-100 px-1.5 py-0.5">{sdkVersion}</code>
+                    </p>
+                    <div className="mt-3">
+                      <CodeTabs
+                        defaultKey="kts"
+                        tabs={[
+                          {
+                            key: "kts",
+                            label: "Gradle (Kotlin DSL)",
+                            badge: "app/build.gradle.kts",
+                            code: jitpackDepGradleKts,
+                          },
+                          {
+                            key: "groovy",
+                            label: "Gradle (Groovy)",
+                            badge: "app/build.gradle",
+                            code: jitpackDepGradleGroovy,
+                          },
+                        ]}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="font-semibold text-zinc-900">
+                      3) Ensure internet permission
+                    </div>
+                    <p className="mt-2 text-sm text-zinc-600">
+                      Add this in your{" "}
+                      <code className="rounded bg-zinc-100 px-1.5 py-0.5">AndroidManifest.xml</code>.
                     </p>
                     <div className="mt-3">
                       <CodeTabs
@@ -383,7 +443,6 @@ export default function ChatoDocsPage() {
                 </div>
               </div>
             </div>
-            
 
             {/* GET STARTED */}
             <div id="get-started" className="scroll-mt-28">
@@ -422,22 +481,19 @@ export default function ChatoDocsPage() {
                   </div>
 
                   <div>
-                    <div className="rounded-3xl border border-zinc-200 bg-zinc-50 p-4">
+                    <div className="mt-10 rounded-3xl border border-zinc-200 bg-zinc-50 p-4">
                       <div className="flex items-center justify-between">
                         <div className="text-sm font-semibold text-zinc-900">
-                          Sample (from your sample-app)
+                          Sample
                         </div>
                         <Badge>Kotlin</Badge>
                       </div>
                       <img
-                        src="/sdk_screenshot1.png"
+                        src="/screenshots/sdk_screenshot1.png"
                         alt="Sample-app integration snippet"
                         className="mt-4 w-full rounded-2xl border border-zinc-200 bg-white"
                         draggable={false}
                       />
-                      <div className="mt-3 text-xs text-zinc-500">
-                        This snippet matches your Activity lifecycle integration: init → attach → detach.
-                      </div>
                     </div>
                   </div>
                 </div>
