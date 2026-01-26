@@ -6,14 +6,20 @@ function Card({ title, value, sub, className = "" }) {
         className
       }
     >
-      <div className="text-sm text-[var(--muted)]">{title}</div>
-      <div className="mt-2 text-3xl font-semibold tracking-tight text-[var(--ink)]">
+      <div className="text-sm text-current/70">{title}</div>
+
+      <div className="mt-2 text-3xl font-semibold tracking-tight text-current">
         {value}
       </div>
-      {sub ? <div className="mt-1 text-xs text-[var(--muted)]">{sub}</div> : null}
+
+      {sub ? (
+        <div className="mt-1 text-xs text-current/60">{sub}</div>
+      ) : null}
     </div>
   );
 }
+
+
 
 export default function StatsCards({ appsCount, unreadTotal, activeTotal, sessionsTotal }) {
   return (
@@ -40,12 +46,19 @@ export default function StatsCards({ appsCount, unreadTotal, activeTotal, sessio
         className="bg-[var(--panel)]"
       />
 
-      <Card
-        title="Unread Messages"
-        value={unreadTotal}
-        sub="Across all apps"
-        className="bg-[var(--panel)]"
-      />
+<Card
+  title="Unread Messages"
+  value={unreadTotal}
+  sub="Across all apps"
+  className={`transition ${
+    unreadTotal > 0
+      ? "bg-[var(--danger)] text-white"
+      : "bg-[var(--panel)]"
+  }`}
+/>
+
+
+
     </div>
   );
 }

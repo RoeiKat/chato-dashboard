@@ -282,7 +282,9 @@ export default function MainPage() {
             </p>
 
             <div className="mt-8">
-              <button className="rounded-xl border border-zinc-300 px-6 py-3 text-sm font-semibold hover:bg-zinc-100 cursor-pointer">
+              <button className="rounded-xl border border-zinc-300 px-6 py-3 text-sm font-semibold hover:bg-zinc-100 cursor-pointer"
+              onClick={() => {navigate("/sdk-docs")}}
+              >
                 View Docs
               </button>
             </div>

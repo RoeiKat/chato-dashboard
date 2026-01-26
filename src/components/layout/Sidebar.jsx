@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 function cx(...c) {
   return c.filter(Boolean).join(" ");
 }
@@ -12,6 +14,51 @@ const ChatsIcon = ({ className }) => (
     />
   </svg>
 );
+
+const DocumentationIcon = ({ className }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    aria-hidden="true"
+  >
+    <g transform="translate(-0.6 0.2)">
+      <path
+        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14 2v6h6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M8 13h8"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M8 17h8"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M8 9h2"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </g>
+  </svg>
+);
+
+
 
 const DashboardIcon = ({ className }) => (
   <svg
@@ -142,6 +189,7 @@ export default function Sidebar({
 }) {
   const closeMobile = () => setMobileOpen?.(false);
   const isDrawerOpen = Boolean(mobileOpen);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -217,11 +265,21 @@ export default function Sidebar({
           </div>
 
           {/* General section label + logout button */}
+          
           <div className="mt-6">
+            
             <div className="mb-3 px-2 text-[11px] uppercase tracking-wider text-[var(--muted)]">
               General
             </div>
-
+            <button
+  className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-[var(--ink)] hover:bg-[var(--soft)] cursor-pointer"
+  onClick={() => { navigate("/sdk-docs"); }}
+>
+  <span className="w-5 h-5 text-[var(--ink)] flex items-center justify-center">
+    <DocumentationIcon className="w-5 h-5" />
+  </span>
+  Documentation
+</button>
             <button
               className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-[var(--ink)] hover:bg-[var(--soft)] cursor-pointer"
               onClick={() => {
@@ -233,7 +291,6 @@ export default function Sidebar({
               Logout
             </button>
           </div>
-
           <div className="mt-auto" />
         </div>
       </aside>

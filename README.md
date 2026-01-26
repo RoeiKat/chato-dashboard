@@ -10,6 +10,15 @@ It allows app owners to:
 
 ---
 
+## Chato Frontend Dashboard
+
+🚀 **Live Demo:**  
+👉 https://chato-dashboard.onrender.com/dashboard
+
+> This dashboard is fully deployed and actively running in production.
+
+---
+
 ## Features
 
 - Real-time chat with Android users
