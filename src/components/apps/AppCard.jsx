@@ -7,7 +7,7 @@ function maskAllKey(key) {
 
 function EyeIcon({ open }) {
   return open ? (
-    // eye open
+    // Eye open svg
     <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
       <path
         d="M1.5 12s4-7.5 10.5-7.5S22.5 12 22.5 12s-4 7.5-10.5 7.5S1.5 12 1.5 12Z"
@@ -17,7 +17,7 @@ function EyeIcon({ open }) {
       <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
     </svg>
   ) : (
-    // eye closed
+    // Eye closed svg
     <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
       <path
         d="M3 3l18 18"
@@ -64,7 +64,7 @@ const primary = safeColor(
   return (
     <div className="w-full max-w-[360px]">
       <div className="relative">
-        {/* OUTER layer (primary) on the LEFT */}
+        {/* OUTER layer */}
         <div
           className="absolute inset-0 rounded-[26px] translate-y-2 -translate-x-2"
           style={{ background: "var(--primary)" }}
@@ -72,7 +72,7 @@ const primary = safeColor(
 
         {/* Inner card */}
         <div className="relative rounded-[26px] border border-[var(--border)] bg-white shadow-[var(--shadow)] p-5">
-          {/* Header row: delete + title */}
+          {/* Header row */}
           <div className="flex items-center justify-between gap-3">
 <button
   type="button"
@@ -104,7 +104,7 @@ const primary = safeColor(
 
           {/* Body */}
           <div className="mt-4">
-            {/* API key (fully masked) */}
+            {/* API key */}
             <div className="text-xs font-semibold text-[var(--muted)]">API Key</div>
 <div className="mt-2 flex items-center gap-3">
   <div className="text-sm text-[var(--ink)] font-medium tracking-widest select-none truncate">
@@ -125,7 +125,7 @@ const primary = safeColor(
 </div>
 
 
-            {/* Color swatches (display-only) */}
+            {/* Color swatches */}
             <div className="mt-4">
               <div className="text-xs font-semibold text-[var(--muted)]">Colors</div>
               <div className="mt-2 flex items-center gap-3">

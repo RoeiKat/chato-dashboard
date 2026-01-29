@@ -72,8 +72,9 @@ export default function ChatsTab({ apps, onOpenCreate }) {
   const [screen, setScreen] = useState("grid"); // grid | conversations | chat
   const [activeApp, setActiveApp] = useState(null);
   const [activeSession, setActiveSession] = useState(null);
-
   const isMobile = useIsMobile();
+  
+  // Pagination
   const pageSize = isMobile ? 3 : 8;
   const [page, setPage] = useState(1);
 
@@ -129,7 +130,7 @@ export default function ChatsTab({ apps, onOpenCreate }) {
           )}
         </div>
 
-        {/* ✅ Sticky pagination like Apps */}
+        {/* Pagination */}
         <div className="mt-auto">
           <div className="sticky bottom-0 bg-[var(--bg)] pt-4 pb-2">
             <Pagination page={page} totalPages={totalPages} onPage={setPage} />

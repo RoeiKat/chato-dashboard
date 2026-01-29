@@ -74,15 +74,15 @@ export default function ChatCard({ app, onOpen }) {
   return (
     <div className="w-full max-w-[360px]">
       <div className="relative">
-        {/* outer layer (primary) */}
+        {/* Outer layer */}
         <div
           className="absolute inset-0 rounded-[26px] translate-y-2 translate-x-2"
           style={{ background: "var(--primary)" }}
         />
 
-        {/* inner card */}
+        {/* Inner card */}
         <div className="relative rounded-[26px] border border-[var(--border)] bg-white shadow-[var(--shadow)] p-5">
-          {/* top row: app name + unread pill */}
+          {/* Top row */}
           <div className="flex items-center justify-between gap-3">
             <div className="min-w-0">
               <div className="text-sm font-semibold text-[var(--ink)] truncate">
@@ -104,7 +104,7 @@ export default function ChatCard({ app, onOpen }) {
             </div>
           </div>
 
-          {/* middle */}
+          {/* Middle */}
           <div className="mt-4">
             <div className="text-2xl font-extrabold tracking-tight text-[var(--ink)]">
               {totalConvos}

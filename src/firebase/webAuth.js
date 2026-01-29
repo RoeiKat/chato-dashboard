@@ -3,7 +3,7 @@ import { firebaseAuth } from "./firebase";
 
 let bootPromise = null;
 
-/** Ensures we have a Firebase user (anonymous) */
+// Ensures we have a Firebase user (anonymous)
 export function ensureFirebaseAnonAuth() {
   if (firebaseAuth.currentUser) return Promise.resolve(firebaseAuth.currentUser);
 
@@ -18,7 +18,7 @@ export function ensureFirebaseAnonAuth() {
   return bootPromise;
 }
 
-/** Resolves when firebaseAuth.currentUser becomes non-null */
+// Resolves when firebaseAuth.currentUser becomes non-null
 export function waitForFirebaseAuthReady() {
   if (firebaseAuth.currentUser) return Promise.resolve(firebaseAuth.currentUser);
 
@@ -32,7 +32,7 @@ export function waitForFirebaseAuthReady() {
   });
 }
 
-/** Used on logout */
+// Used on logout
 export async function signOutFirebase() {
   if (!firebaseAuth.currentUser) return;
   await signOut(firebaseAuth);

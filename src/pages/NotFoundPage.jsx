@@ -5,7 +5,7 @@ export default function NotFoundPage() {
     <div className="min-h-screen bg-slate-50">
       <div className="mx-auto max-w-6xl px-6 py-16">
         <div className="grid items-center gap-10 lg:grid-cols-2">
-          {/* Left */}
+          {/* LEFT */}
           <div>
             <p className="text-2xl font-semibold text-slate-500">404</p>
             <h1 className="mt-2 text-4xl font-bold tracking-tight text-slate-900">
@@ -44,7 +44,7 @@ export default function NotFoundPage() {
           </div>
         </div>
 
-        {/* Optional small footer-ish hint (matches the “clean dashboard” feel) */}
+        {/* FOOTER HINT */}
         <div className="mt-10 text-xs text-slate-500">
           If you think this is a mistake, try going back to the dashboard or login page.
         </div>

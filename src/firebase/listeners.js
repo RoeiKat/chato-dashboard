@@ -41,7 +41,7 @@ export function subscribeAppSessions(apiKey, cb) {
 
         if (lastText) return lastText !== CUSTOMER_LEFT_TEXT;
 
-        // fallback if your session object doesn't store last message text
+        // Fallback if session object doesn't store last message text
         return (s.status || "open") === "open";
       }).length;
 
@@ -89,13 +89,13 @@ export function subscribeAppSessions(apiKey, cb) {
     }
   );
 
-  // 2) Messages listener (aggregate last 7 days)
+  // Messages listener (aggregate last 7 days)
   const unsubMessages = onValue(
     messagesRootRef,
     (snap) => {
       const all = snap.val() || {};
 
-      // start = 00:00 (today - 6 days)
+      // Start = 00:00 (today - 6 days)
       const now = new Date();
       const start = new Date(now);
       start.setHours(0, 0, 0, 0);
@@ -106,7 +106,7 @@ export function subscribeAppSessions(apiKey, cb) {
 
       const buckets = [0, 0, 0, 0, 0, 0, 0];
 
-      // all: { sessionId: { messageId: { at, ... } } }
+      // All: { sessionId: { messageId: { at, ... } } }
       for (const sessionId of Object.keys(all)) {
         const msgsObj = all[sessionId] || {};
         for (const msgId of Object.keys(msgsObj)) {

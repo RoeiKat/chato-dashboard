@@ -22,7 +22,7 @@ export const createShiftThunk = createAsyncThunk(
   async ({ token, startedAt, endedAt, durationMs }, { dispatch, getState }) => {
     await dashboardApi.createShift(token, { startedAt, endedAt, durationMs });
 
-    // refresh current week after saving
+    // Refresh current week after saving
     const ws = getState().dashboard.weekStartMs;
     await dispatch(loadWeekShiftsThunk({ token, weekStartMs: ws }));
     return true;

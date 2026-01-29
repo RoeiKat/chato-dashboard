@@ -4,7 +4,9 @@ import { useMemo } from "react";
 function normalizeHex(value, fallback = "#FFE95C") {
   const v = (value ?? "").toString().trim();
   if (!v || v === '"' || v === "null" || v === "undefined") return fallback;
+  // Ensure leading '#'
   let hex = v.startsWith("#") ? v : `#${v}`;
+  // Basic validation
   if (!/^#[0-9a-fA-F]{6}$/.test(hex)) return fallback;
   return hex.toUpperCase();
 }

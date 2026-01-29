@@ -66,7 +66,7 @@ export default function ChatView({ app, session, onBack }) {
 
   // Disable send if last CUSTOMER message is "Customer left the conversation"
   const sendDisabled = useMemo(() => {
-    // find last message sent by customer
+    // Find last message sent by customer
     for (let i = messages.length - 1; i >= 0; i--) {
       const m = messages[i];
       if (m?.from === "customer") {
@@ -83,7 +83,6 @@ export default function ChatView({ app, session, onBack }) {
 
     setText("");
 
-    // optimistic UI
     setMessages((prev) => [
       ...prev,
       { id: crypto.randomUUID(), from: "owner", text: msg, at: Date.now() },
@@ -115,7 +114,6 @@ export default function ChatView({ app, session, onBack }) {
             Session: {sessionId || "—"}
           </div>
 
-          {/* NEW: MSG2 | MSG4 line */}
           <div className="text-xs text-[var(--muted)] truncate mt-1">
             {previewLine}
           </div>
@@ -131,7 +129,6 @@ export default function ChatView({ app, session, onBack }) {
               <div
                 key={m.id}
                 className={cx(
-                  // smaller bubble footprint:
                   "max-w-[40%] sm:max-w-[28%] rounded-2xl px-3 py-2 border",
                   m.from === "owner"
                     ? "ml-auto bg-[var(--primary)] text-[var(--ink)] border-transparent"

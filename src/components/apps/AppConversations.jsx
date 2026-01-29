@@ -85,7 +85,7 @@ function formatLastMessageAt(ts) {
   const diffDays = Math.round((startToday - startThat) / (1000 * 60 * 60 * 24));
 
   if (diffDays === 0) {
-    // show time HH:MM
+    // Show time HH:MM
     const hh = String(d.getHours()).padStart(2, "0");
     const mm = String(d.getMinutes()).padStart(2, "0");
     return `${hh}:${mm}`;
@@ -98,16 +98,10 @@ function formatLastMessageAt(ts) {
   return `${dd}/${mm}/${yy}`;
 }
 
-/**
- * Reads messages for a session and extracts:
- * - first 2 messages (chronological)
- * - last message (chronological)
- */
 function subscribeSessionMessages(apiKey, sessionId, cb) {
   const r = ref(rtdb, `messages/${apiKey}/${sessionId}`);
   const handler = (snap) => {
     const obj = snap.val() || {};
-    // obj is keyed by push ids
     const items = Object.entries(obj)
       .map(([id, m]) => ({ id, ...m }))
       .sort((a, b) => Number(a.createdAt || a.at || 0) - Number(b.createdAt || b.at || 0));
@@ -132,13 +126,13 @@ function subscribeSessionMessages(apiKey, sessionId, cb) {
 export default function AppConversations({ app, onBack, onOpenChat }) {
   const [sessions, setSessions] = useState([]);
   const [unreadTotal, setUnreadTotal] = useState(0);
-
-  // pagination requirements
   const isMobile = useIsMobile();
+
+  // Pagination
   const pageSize = isMobile ? 5 : 6;
   const [page, setPage] = useState(1);
 
-  // per-session messages preview cache
+  // Per-session messages preview cache
   const [previews, setPreviews] = useState({}); // sessionId -> {msg1,msg2,lastText}
   const previewUnsubs = useRef({}); // sessionId -> unsub
 
@@ -159,7 +153,7 @@ export default function AppConversations({ app, onBack, onOpenChat }) {
     return () => {
       stop = true;
       unsub?.();
-      // cleanup message preview listeners
+      // Cleanup message preview listeners
       Object.values(previewUnsubs.current).forEach((fn) => fn?.());
       previewUnsubs.current = {};
     };
@@ -198,7 +192,7 @@ export default function AppConversations({ app, onBack, onOpenChat }) {
       }
     }
 
-    // Add listeners for newly visible
+    // Adding Listeners for newly visible
     for (const s of pagedSessions) {
       const sid = s.sessionId || s.id;
       if (!sid) continue;
@@ -281,7 +275,7 @@ export default function AppConversations({ app, onBack, onOpenChat }) {
                   </div>
                 </div>
 
-                {/* Unread pill (danger, with label) */}
+                {/* Unread pill  */}
 <div
   className={[
     "shrink-0 h-10 px-3 rounded-full flex items-center justify-center text-sm font-bold",
@@ -304,7 +298,7 @@ export default function AppConversations({ app, onBack, onOpenChat }) {
         )}
       </div>
 
-      {/* Sticky pagination */}
+      {/* Pagination */}
       <div className="mt-auto">
         <div className="sticky bottom-0 bg-[var(--bg)] pt-4 pb-2">
           <Pagination page={page} totalPages={totalPages} onPage={setPage} />

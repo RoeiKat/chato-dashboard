@@ -286,10 +286,8 @@ export default function ShiftsPanel() {
   const goPrevWeek = () => dispatch(setWeekStartMs(weekStartMs - 7 * 24 * 60 * 60 * 1000));
   const goNextWeek = () => dispatch(setWeekStartMs(weekStartMs + 7 * 24 * 60 * 60 * 1000));
 
-  // 🔒 FIXED HEIGHT: keep the compact form always
-  const PANEL_H = 248; // tune if you want +/- (this matches your "small form" screenshot well)
-  // sessions list scrolls within the fixed height
-  const LIST_H = 152; // list area height inside sessions card
+  const PANEL_H = 248; // Sessions list scrolls within the fixed height
+  const LIST_H = 152; // List area height inside sessions card
 
   return (
     <>
@@ -348,7 +346,7 @@ export default function ShiftsPanel() {
           </div>
         </div>
 
-        {/* Sessions (fixed height too) */}
+        {/* Sessions */}
         <div className="h-full bg-[var(--panel)] border border-[var(--border)] shadow-[var(--shadow)] rounded-2xl p-5 flex flex-col">
           {/* Header */}
           <div className="flex items-start justify-between gap-3">
@@ -366,7 +364,7 @@ export default function ShiftsPanel() {
             </button>
           </div>
 
-          {/* List (fixed) */}
+          {/* List */}
           <div className="mt-3 pr-1 overflow-auto" style={{ height: LIST_H }}>
             {loadingShifts ? (
               <div className="text-sm text-[var(--muted)] py-6 text-center">Loading…</div>
@@ -403,7 +401,7 @@ export default function ShiftsPanel() {
             )}
           </div>
 
-          {/* Bottom arrows always at the bottom */}
+          {/* Bottom arrows */}
           <div className="mt-auto pt-3 flex items-center justify-between">
             <button
               onClick={goPrevWeek}

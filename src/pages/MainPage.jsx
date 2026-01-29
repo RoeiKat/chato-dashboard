@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import ColorPickerModal from "../components/ui/ColorPickerModal";
 import HelloIllustration from "../assets/illustrations/hello_illustration.svg";
 import SettingsIllustration from "../assets/illustrations/settings_illustration.svg";
@@ -131,6 +132,8 @@ function PhonePreview({ primary, bubbleColor, title = "Support", messages }) {
 export default function MainPage() {
   const navigate = useNavigate();
   const goAuth = () => navigate("/auth");
+  const token = useSelector((s) => s.auth.token);
+
 
   const [examplesOpen, setExamplesOpen] = useState(false);
 
@@ -149,7 +152,6 @@ export default function MainPage() {
     []
   );
 
-  // unified styles for all screenshots: bigger (+20%) on desktop, centered on mobile
   const screenshotClass =
     "w-full max-w-xl mx-auto lg:mx-0 lg:w-[120%] select-none rounded-2xl shadow-xl";
 
@@ -173,7 +175,7 @@ export default function MainPage() {
               onClick={goAuth}
               className="rounded-xl bg-[var(--primary)] px-4 py-2 text-sm font-semibold text-zinc-900 hover:brightness-95 cursor-pointer"
             >
-              Login
+              {token ? "Go to Dashboard": "Login"}
             </button>
           </div>
         </div>
@@ -181,7 +183,7 @@ export default function MainPage() {
 
       {/* HERO */}
       <section className="mx-auto max-w-6xl px-6 py-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        {/* Left */}
+        {/* LEFT */}
         <div>
           <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight">
             In-app support chat <br /> built for modern apps.
@@ -208,7 +210,7 @@ export default function MainPage() {
           </div>
         </div>
 
-        {/* Right */}
+        {/* RIGHT */}
         <div className="relative flex justify-center lg:justify-end">
           <div className="absolute inset-0 -z-10 rounded-[40px] bg-white/60" />
           <img
@@ -248,7 +250,7 @@ export default function MainPage() {
       {/* PLUG & PLAY SECTION */}
       <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          {/* LEFT: photos */}
+          {/* LEFT */}
           <div className="grid grid-cols-2 gap-4">
             <img
               src="/screenshots/sdk_screenshot1.png"
@@ -270,7 +272,7 @@ export default function MainPage() {
             />
           </div>
 
-          {/* RIGHT: copy + docs */}
+          {/* RIGHT */}
           <div>
             <div className="text-xs font-semibold text-zinc-500">SDK PREVIEW</div>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight">
@@ -295,7 +297,7 @@ export default function MainPage() {
       {/* CUSTOMIZATION */}
       <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          {/* LEFT: explanation */}
+          {/* LEFT */}
           <div>
             <div className="text-xs font-semibold text-zinc-500">CUSTOMIZATION</div>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight">
@@ -347,7 +349,7 @@ export default function MainPage() {
             </div>
           </div>
 
-          {/* RIGHT: screenshot */}
+          {/* RIGHT */}
           <div className="relative flex justify-center lg:justify-end">
             <div className="absolute inset-0 -z-10 rounded-[40px] bg-white/60" />
             <img
@@ -413,7 +415,7 @@ export default function MainPage() {
         </div>
       </section>
 
-      {/* DARK CTA */}
+      {/* CTA */}
       <section className="bg-[var(--ink)] text-white">
         <div className="mx-auto max-w-6xl px-6 py-20">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">

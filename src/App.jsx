@@ -13,16 +13,14 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-<Route
-  path="/"
-  element={token ? <Navigate to="/dashboard" replace /> : <MainPage />}
-/>
-<Route
-  path="/sdk-docs"
-  element={<ChatoDocsPage />}
-/>
-
-
+        <Route
+          path="/"
+          element={<MainPage />}
+        />
+        <Route
+          path="/sdk-docs"
+          element={<ChatoDocsPage />}
+        />
         <Route element={<AuthGuard />}>
           <Route path="/auth" element={<AuthPage />} />
         </Route>

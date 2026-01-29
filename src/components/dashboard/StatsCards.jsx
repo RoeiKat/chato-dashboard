@@ -24,7 +24,6 @@ function Card({ title, value, sub, className = "" }) {
 export default function StatsCards({ appsCount, unreadTotal, activeTotal, sessionsTotal }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-      {/* Gradient only for Connected Apps */}
       <Card
         title="Connected Apps"
         value={appsCount}

@@ -135,11 +135,10 @@ function InfoCard({ title, children }) {
 }
 
 export default function ChatoDocsPage() {
-  // ✅ Updated JitPack version
   const sdkVersion = "v0.1.1";
   const minSdk = 21;
 
-  // === CODE SNIPPETS (based on your sample-app screenshot) ===
+  // Code snippets
   const kotlinInitAttachDetach = `class MainActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -163,7 +162,7 @@ export default function ChatoDocsPage() {
   }
 }`;
 
-  // Java placeholder (keep as tab but you can remove if you don't want it)
+  // Java placeholder
   const javaInitAttachDetach = `public class MainActivity extends AppCompatActivity {
 
   @Override
@@ -190,7 +189,7 @@ export default function ChatoDocsPage() {
   }
 }`;
 
-  // ✅ JitPack repo (settings.gradle / settings.gradle.kts)
+  // JitPack repo 
   const jitpackRepoGradleGroovy = `dependencyResolutionManagement {
   repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
   repositories {
@@ -207,7 +206,7 @@ export default function ChatoDocsPage() {
   }
 }`;
 
-  // ✅ JitPack dependency (module build.gradle / build.gradle.kts)
+  // JitPack dependency (module build.gradle / build.gradle.kts)
   const jitpackDepGradleGroovy = `dependencies {
   implementation 'com.github.RoeiKat:chato-sdk:${sdkVersion}'
 }`;
@@ -225,7 +224,7 @@ export default function ChatoDocsPage() {
 
   return (
     <div className="min-h-screen bg-[#F6FAF9] text-zinc-900">
-      {/* Top bar */}
+      {/* TOP BAR */}
       <header className="sticky top-0 z-40 border-b border-zinc-200 bg-[#F6FAF9]/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="/" className="flex items-center gap-2 font-semibold text-xl">
@@ -255,7 +254,7 @@ export default function ChatoDocsPage() {
         </div>
       </header>
 
-      {/* Hero */}
+      {/* HERO */}
       <section className="mx-auto max-w-6xl px-6 py-14">
         <SectionTitle
           eyebrow="ANDROID SDK"
@@ -272,10 +271,10 @@ export default function ChatoDocsPage() {
         </div>
       </section>
 
-      {/* Layout */}
+      {/* LAYOUT */}
       <section className="mx-auto max-w-6xl px-6 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-10">
-          {/* Sidebar / TOC */}
+          {/* SIDEBAR / TOC */}
           <aside className="lg:sticky lg:top-24 h-fit">
             <div className="rounded-3xl border border-zinc-200 bg-white p-4 shadow-sm">
               <div className="text-xs font-semibold tracking-wider text-zinc-500">
@@ -315,7 +314,7 @@ export default function ChatoDocsPage() {
             </div>
           </aside>
 
-          {/* Main content */}
+          {/* MAIN */}
           <main className="space-y-14">
             {/* OVERVIEW */}
             <div id="overview" className="scroll-mt-28">
@@ -629,7 +628,7 @@ export default function ChatoDocsPage() {
               </div>
             </div>
 
-            {/* Footer note */}
+            {/* FOOTER */}
             <div className="text-center text-sm text-zinc-500">
               © {new Date().getFullYear()} Chato - SDK Docs
             </div>

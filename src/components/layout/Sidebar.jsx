@@ -202,7 +202,7 @@ export default function Sidebar({
         onClick={closeMobile}
       />
 
-      {/* One sidebar element: desktop static, mobile drawer */}
+      {/* Sidebar: Desktop static, Mobile drawer */}
       <aside
         className={cx(
           "fixed sm:static inset-y-0 left-0 z-50 sm:z-auto",
@@ -264,7 +264,7 @@ export default function Sidebar({
             </div>
           </div>
 
-          {/* General section label + logout button */}
+          {/* General section */}
           
           <div className="mt-6">
             

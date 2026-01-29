@@ -9,7 +9,7 @@ export const registerThunk = createAsyncThunk(
   async ({ email, password }) => {
     const { token } = await authApi.register(email, password);
 
-    // ✅ After Node auth succeeds, sign into Firebase anonymously
+    // After Node auth succeeds, sign into Firebase anonymously
     await ensureFirebaseAnonAuth();
 
     return token;
@@ -21,7 +21,7 @@ export const loginThunk = createAsyncThunk(
   async ({ email, password }) => {
     const { token } = await authApi.login(email, password);
 
-    // ✅ After Node auth succeeds, sign into Firebase anonymously
+    // After Node auth succeeds, sign into Firebase anonymously
     await ensureFirebaseAnonAuth();
 
     return token;

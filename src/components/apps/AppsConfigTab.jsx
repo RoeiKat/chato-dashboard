@@ -70,9 +70,9 @@ function Pagination({ page, totalPages, onPage }) {
 export default function AppsConfigTab({ apps, onCopy, onDelete, onCreate }) {
   const [screen, setScreen] = useState("grid"); // grid | settings
   const [activeApp, setActiveApp] = useState(null);
-
-  // pagination (keep your existing behavior)
   const isMobile = useIsMobile();
+
+  // Pagination
   const pageSize = isMobile ? 3 : 8;
   const [page, setPage] = useState(1);
 

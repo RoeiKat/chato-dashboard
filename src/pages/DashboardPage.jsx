@@ -27,25 +27,22 @@ export default function DashboardPage() {
 
   const [tab, setTab] = useState("dashboard"); // dashboard | chats | apps
 
-  // Delete modal
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [pendingDelete, setPendingDelete] = useState(null);
 
-  // Logout modal
   const [logoutOpen, setLogoutOpen] = useState(false);
 
-  useEffect(() => {
-    if (!token) return;
-    dispatch(fetchAppsThunk({ token }));
-  }, [dispatch, token]);
+  const appsStatus = useSelector((s) => s.apps.status);
+  const appsError = useSelector((s) => s.apps.error);
 
-  /**
-   * IMPORTANT:
-   * Do NOT depend on `apps` directly here, because `apps` changes on every realtime meta update,
-   * causing unsubscribe/resubscribe loops -> jitter.
-   *
-   * Instead, depend only on the API KEY LIST.
-   */
+  
+useEffect(() => {
+  if (!token) return;
+  if (appsStatus !== "idle" && appsStatus !== "failed") return;
+  dispatch(fetchAppsThunk({ token }));
+}, [dispatch, token, appsStatus]);
+
+
   const apiKeysKey = useMemo(() => {
     if (!apps?.length) return "";
     return apps
@@ -113,7 +110,6 @@ export default function DashboardPage() {
     return out;
   }, [apps]);
 
-  // Force EN labels so you won't get localized day names
   const weekLabels = useMemo(() => {
     const fmt = new Intl.DateTimeFormat("en-US", { weekday: "short" });
     const today = new Date();
@@ -146,6 +142,39 @@ export default function DashboardPage() {
     setDeleteOpen(false);
     setPendingDelete(null);
   };
+
+  if (token && (appsStatus === "idle" || appsStatus === "loading")) {
+  return (
+    <div className="min-h-screen grid place-items-center bg-white overflow-hidden">
+      <div className="flex flex-col items-center gap-4">
+        <div className="h-24 w-24 rounded-full border-[14px] border-zinc-200 border-t-[#FFE95C] animate-spin" />
+        <div className="text-sm text-zinc-600">Loading dashboard…</div>
+      </div>
+    </div>
+  );
+}
+
+if (token && appsStatus === "failed") {
+  return (
+    <div className="min-h-screen grid place-items-center bg-white overflow-hidden">
+      <div className="flex flex-col items-center gap-3 text-center">
+        <div className="text-sm text-zinc-700">Couldn’t load dashboard data.</div>
+        <div className="text-xs text-zinc-500">
+          {appsError || "Server might be waking up (Render cold start)."}
+        </div>
+
+        <button
+          className="mt-2 px-4 py-2 rounded-xl bg-[#FFE95C] text-black font-medium hover:opacity-90"
+          onClick={() => dispatch(fetchAppsThunk({ token }))}
+        >
+          Retry
+        </button>
+      </div>
+    </div>
+  );
+}
+
+
 
   return (
     <AppShell

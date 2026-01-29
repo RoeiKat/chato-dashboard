@@ -145,7 +145,7 @@ export default function ColorPickerField({
       {/* Panel */}
       {open && (
         <div className="rounded-2xl border border-[var(--border)] bg-[var(--panel)] shadow-[var(--shadow)] p-4">
-          {/* Swatches (current + slightly lighter like your screenshot vibe) */}
+          {/* Swatches */}
           <div className="flex gap-3">
             <div
               className="h-14 w-24 rounded-xl border border-[var(--border)]"

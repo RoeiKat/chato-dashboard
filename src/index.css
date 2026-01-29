@@ -1,14 +1,11 @@
 @import "tailwindcss";
 
-/* Keep globals minimal so Tailwind controls layout */
 :root {
   font-family: system-ui, -apple-system, Poppins, Roboto, Helvetica, Arial, sans-serif;
   /* brand */
   --primary: #ffe95c;
   --danger: #ff5964;
   --ink: #1c1c1c;
-
-  /* surfaces (Donezo-like light UI) */
   --bg: #f7f7f8;          /* page background */
   --panel: #ffffff;       /* cards/panels */
   --muted: #6b7280;       /* secondary text */

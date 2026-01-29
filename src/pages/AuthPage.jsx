@@ -175,7 +175,7 @@ useEffect(() => {
               </div>
 
               <form onSubmit={submit} className="mt-6 space-y-4">
-                {/* EMAIL (with red-on-error-until-edit) */}
+                {/* EMAIL */}
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-zinc-700">Email</label>
                   <input
@@ -198,7 +198,7 @@ useEffect(() => {
                   />
                 </div>
 
-                {/* PASSWORD (eye + red + hint only if empty) */}
+                {/* PASSWORD */}
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-zinc-700">Password</label>
 
@@ -238,10 +238,7 @@ useEffect(() => {
                       )}
                     </button>
 
-                    {/* Speech bubble:
-                        - only register
-                        - only when focused
-                        - ONLY when password is empty */}
+                    {/* Speech bubble */}
                     {!isLogin && showPwHint && password.trim() === "" && (
                       <div className="absolute left-0 top-full z-10 mt-2 w-full">
                         <div className="relative w-full rounded-xl border border-zinc-200 bg-white p-3 text-xs text-zinc-600 shadow-sm animate-[hintFade_160ms_ease-out_forwards]">
@@ -259,7 +256,7 @@ useEffect(() => {
                   </div>
                 </div>
 
-                {/* Terms checkbox (register-only) */}
+                {/* Terms checkbox */}
                 {!isLogin && (
                   <label className="flex items-start gap-2 text-sm text-zinc-600">
                     <input
@@ -320,6 +317,7 @@ useEffect(() => {
             </div>
 
             {/* RIGHT placeholder */}
+
 {/* RIGHT illustration */}
 <div className="relative hidden lg:block border-t border-zinc-200 bg-zinc-50 p-6 sm:p-10 lg:border-l lg:border-t-0">
   <div className="flex h-full items-center justify-center">

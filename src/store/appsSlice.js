@@ -1,20 +1,29 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { appsApi } from "../api/appsApi";
 
-export const fetchAppsThunk = createAsyncThunk("apps/fetch", async ({ token }) => {
-  const { apps } = await appsApi.list(token);
-  return apps;
-});
+export const fetchAppsThunk = createAsyncThunk(
+  "apps/fetch",
+  async ({ token }) => {
+    const { apps } = await appsApi.list(token);
+    return apps;
+  }
+);
 
-export const createAppThunk = createAsyncThunk("apps/create", async ({ token, name }) => {
-  const { apiKey } = await appsApi.create(token, name);
-  return { apiKey, name };
-});
+export const createAppThunk = createAsyncThunk(
+  "apps/create",
+  async ({ token, name }) => {
+    const { apiKey } = await appsApi.create(token, name);
+    return { apiKey, name };
+  }
+);
 
-export const deleteAppThunk = createAsyncThunk("apps/delete", async ({ token, apiKey }) => {
-  await appsApi.remove(token, apiKey);
-  return { apiKey };
-});
+export const deleteAppThunk = createAsyncThunk(
+  "apps/delete",
+  async ({ token, apiKey }) => {
+    await appsApi.remove(token, apiKey);
+    return { apiKey };
+  }
+);
 
 export const updateAppSettingsThunk = createAsyncThunk(
   "apps/updateSettings",
@@ -24,12 +33,25 @@ export const updateAppSettingsThunk = createAsyncThunk(
   }
 );
 
+const initialState = {
+  items: [],
+  status: "idle",     // idle | loading | succeeded | failed
+  error: null,
+};
+
 const slice = createSlice({
   name: "apps",
-  initialState: { items: [] },
+  initialState,
   reducers: {
+    // Firebase Real-time updates
     setAppRealtimeMeta(state, action) {
-      const { apiKey, unread, sessionsCount, activeCount, messagesByDay } = action.payload;
+      const {
+        apiKey,
+        unread,
+        sessionsCount,
+        activeCount,
+        messagesByDay,
+      } = action.payload;
 
       const app = state.items.find((a) => a.apiKey === apiKey);
       if (!app) return;
@@ -44,13 +66,31 @@ const slice = createSlice({
     },
   },
   extraReducers: (b) => {
-    b.addCase(fetchAppsThunk.fulfilled, (s, a) => {
-      s.items = a.payload.map((x) => ({
+    // Fetch apps
+    b.addCase(fetchAppsThunk.pending, (state) => {
+      state.status = "loading";
+      state.error = null;
+    });
+
+    b.addCase(fetchAppsThunk.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.items = action.payload.map((x) => ({
         apiKey: x.apiKey,
         name: x.name,
 
-        theme: x.theme || { bubbleBg: "", primary: "", iconSvg: "", title: "" },
-        prechat: x.prechat || { q1: "", q2: "", q3: "", faqUrl: "" },
+        theme: x.theme || {
+          bubbleBg: "",
+          primary: "",
+          iconSvg: "",
+          title: "",
+        },
+
+        prechat: x.prechat || {
+          q1: "",
+          q2: "",
+          q3: "",
+          faqUrl: "",
+        },
 
         unread: 0,
         sessionsCount: 0,
@@ -59,13 +99,31 @@ const slice = createSlice({
       }));
     });
 
-    b.addCase(createAppThunk.fulfilled, (s, a) => {
-      s.items.unshift({
-        apiKey: a.payload.apiKey,
-        name: a.payload.name,
+    b.addCase(fetchAppsThunk.rejected, (state, action) => {
+      state.status = "failed";
+      state.error =
+        action.error?.message || "Failed to load apps (backend cold start)";
+    });
 
-        theme: { bubbleBg: "", primary: "", iconSvg: "", title: "" },
-        prechat: { q1: "", q2: "", q3: "", faqUrl: "" },
+    // Create apps
+    b.addCase(createAppThunk.fulfilled, (state, action) => {
+      state.items.unshift({
+        apiKey: action.payload.apiKey,
+        name: action.payload.name,
+
+        theme: {
+          bubbleBg: "",
+          primary: "",
+          iconSvg: "",
+          title: "",
+        },
+
+        prechat: {
+          q1: "",
+          q2: "",
+          q3: "",
+          faqUrl: "",
+        },
 
         unread: 0,
         sessionsCount: 0,
@@ -74,13 +132,17 @@ const slice = createSlice({
       });
     });
 
-    b.addCase(deleteAppThunk.fulfilled, (s, a) => {
-      s.items = s.items.filter((x) => x.apiKey !== a.payload.apiKey);
+    // Delete apps
+    b.addCase(deleteAppThunk.fulfilled, (state, action) => {
+      state.items = state.items.filter(
+        (x) => x.apiKey !== action.payload.apiKey
+      );
     });
 
-    b.addCase(updateAppSettingsThunk.fulfilled, (s, a) => {
-      const { apiKey, prechat, theme } = a.payload;
-      const app = s.items.find((x) => x.apiKey === apiKey);
+    // Update settings
+    b.addCase(updateAppSettingsThunk.fulfilled, (state, action) => {
+      const { apiKey, prechat, theme } = action.payload;
+      const app = state.items.find((x) => x.apiKey === apiKey);
       if (!app) return;
 
       if (theme) app.theme = { ...(app.theme || {}), ...theme };

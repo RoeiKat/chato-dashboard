@@ -31,7 +31,7 @@ export default function AuthGuard() {
       }
 
       try {
-        // ✅ wait for Firebase auth so RTDB rules pass
+        // Wait for Firebase auth so RTDB rules pass
         await ensureFirebaseAnonAuth();
       } catch (e) {
         console.error("Firebase anon auth failed:", e);
@@ -41,7 +41,7 @@ export default function AuthGuard() {
 
       setReady(true);
 
-      // if user is logged in and currently on /auth, redirect to dashboard
+      // If user is logged in and currently on /auth, redirect to dashboard
       if (location.pathname.startsWith("/auth")) {
         navigate("/dashboard", { replace: true });
       }
